@@ -1,0 +1,13 @@
+Subtraction Code:
+
+public class Subtraction {
+    public static void main(String[] args) {
+
+        Integer a = Integer.valueOf(args[0]);
+        Integer b = Integer.valueOf(args[1]);
+
+        Integer sub = a - b;
+
+        System.debug('Subtraction = ' + sub);
+    }
+}
