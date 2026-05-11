@@ -1,178 +1,157 @@
-AI Code-------------------------------
+# LP2
 
-BFS:
+1. Implement Breadth First Search (BFS) algorithm, Use an undirected graph and develop a recursive algorithm for searching all the vertices of a graph or tree data structure.
 
+```java
 import java.util.*;
-
-public class BFSRecursive {
-
-    static boolean first = true;
-
-    static void bfsRecursive(int graph[][], boolean visited[],
-                             int queue[], int front, int rear, int v) {
-
-        // Base condition
-        if (front == rear)
-            return;
-
-        int node = queue[front];
-
-        // Printing format
-        if (!first)
-            System.out.print(" -> ");
-
-        System.out.print(node);
-        first = false;
-
-        // Add adjacent vertices
-        for (int i = 0; i < v; i++) {
-
-            if (graph[node][i] == 1 && !visited[i]) {
-
-                visited[i] = true;
-                queue[rear++] = i;
-            }
+public class bfs
+{
+    static int front=0,rear=0;
+    
+static void bfs(int graph[][],int queue[],int visited[],int n)
+{
+    if(front==rear)
+    {
+        return;
+    }
+    int node=queue[front++];
+    System.out.println(" "+node);
+    
+    for(int i=0;i<n;i++)
+    {
+        if(graph[node][i]==1 && visited[i]==0)
+        {
+            visited[i]=1;
+            queue[rear++]=i;
         }
-
-        // Recursive call
-        bfsRecursive(graph, visited, queue, front + 1, rear, v);
     }
-
-    static void bfs(int graph[][], int start) {
-
-        int v = graph.length;
-
-        boolean visited[] = new boolean[v];
-        int queue[] = new int[v];
-
-        int front = 0;
-        int rear = 0;
-
-        visited[start] = true;
-        queue[rear++] = start;
-
-        bfsRecursive(graph, visited, queue, front, rear, v);
-    }
-
-    public static void main(String[] args) {
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Enter number of vertices: ");
-        int v = sc.nextInt();
-
-        int graph[][] = new int[v][v];
-
-        System.out.print("Enter number of edges: ");
-        int e = sc.nextInt();
-
-        System.out.println("Enter edges (source destination):");
-
-        for (int i = 0; i < e; i++) {
-
-            int src = sc.nextInt();
-            int dest = sc.nextInt();
-
-            graph[src][dest] = 1;
-            graph[dest][src] = 1;
-        }
-
-        System.out.print("Enter starting node: ");
-        int start = sc.nextInt();
-
-        System.out.println("BFS Traversal:");
-        bfs(graph, start);
-
-        sc.close();
-    }
+    bfs(graph,queue,visited,n);
 }
--------------------------------------------------------------------------------------------
-DFS:
 
-import java.util.*;
+public static void main(String args[])
+{
+    Scanner sc=new Scanner(System.in);
+    int n;
+     System.out.println("Enter no. of nodes=");
+     n=sc.nextInt();
+     int graph[][]=new int[n][n];
+     int visited[]=new int[n];
+     int queue[]=new int[n];
+     
+     System.out.println("Enter Adjancy Matrix=");
+     for(int i=0;i<n;i++)
+     {
+         for(int j=0;j<n;j++)
+         {
+             graph[i][j]=sc.nextInt();
+         }
+     }
+     
+     System.out.println("Enter start node=");
+     int start=sc.nextInt();
+      
+     queue[rear++]=start;
+     visited[start]=1;
+     
+     System.out.println("BFS traversal=");
+      bfs(graph,queue,visited,n);
+     
+}
+}
+0 1 1 0
+1 0 0 1
+1 0 0 0
+0 1 0 0
+```
 
-public class DFSRecursive {
+2. Implement Depth First Search (DFS) algorithm, Use an undirected graph and develop a recursive algorithm for searching all the vertices of a graph or tree data structure.
 
-    static boolean first = true;
+```java
+import java.util.Scanner;
 
-    static void dfs(int node, int[][] graph, boolean[] visited) {
+public class DFS {
 
-        visited[node] = true;
+    static void dfs(int graph[][], int visited[], int node, int n) {
 
-        if (!first)
-            System.out.print(" -> ");
+        System.out.print(node + " ");
 
-        System.out.print(node);
-        first = false;
+        visited[node] = 1;
 
-        for (int i = 0; i < graph.length; i++) {
+        for (int i = 0; i < n; i++) {
 
-            if (graph[node][i] == 1 && !visited[i]) {
+            if (graph[node][i] == 1 && visited[i] == 0) {
 
-                dfs(i, graph, visited);
+                dfs(graph, visited, i, n);
             }
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String args[]) {
 
         Scanner sc = new Scanner(System.in);
 
+        int n;
+
         System.out.print("Enter number of vertices: ");
-        int v = sc.nextInt();
+        n = sc.nextInt();
 
-        int[][] graph = new int[v][v];
+        int graph[][] = new int[n][n];
+        int visited[] = new int[n];
 
-        System.out.print("Enter number of edges: ");
-        int e = sc.nextInt();
+        System.out.println("Enter adjacency matrix:");
 
-        System.out.println("Enter edges (source destination):");
+        for (int i = 0; i < n; i++) {
 
-        for (int i = 0; i < e; i++) {
+            for (int j = 0; j < n; j++) {
 
-            int src = sc.nextInt();
-            int dest = sc.nextInt();
-
-            graph[src][dest] = 1;
-            graph[dest][src] = 1;
+                graph[i][j] = sc.nextInt();
+            }
         }
 
-        boolean[] visited = new boolean[v];
+        int start;
 
-        System.out.print("Enter starting node: ");
-        int start = sc.nextInt();
+        System.out.print("Enter starting vertex: ");
+        start = sc.nextInt();
 
         System.out.println("DFS Traversal:");
-        dfs(start, graph, visited);
+
+        dfs(graph, visited, start, n);
 
         sc.close();
     }
 }
 
--------------------------------------------------------------
+0 1 1 0
+1 0 0 1
+1 0 0 0
+0 1 0 0
+```
 
-8 Puzzle:
+3.Implement A star Algorithm for any game search problem.
 
+- Tic-Tac-Toe
+- 8-Puzzle(***) / 15-Puzzle
 
-import java.util.*;
+```java
+import java.util.Scanner;
 
-class Astar {
+public class AStar8Puzzle {
 
-    static int[][] goal = {
-        {1,2,3},
-        {4,5,6},
-        {7,8,0}
+    static int goal[][] = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 0}
     };
 
-    static int h(int[][] s) {
+    static int heuristic(int puzzle[][]) {
 
         int count = 0;
 
-        for(int i=0;i<3;i++) {
+        for (int i = 0; i < 3; i++) {
 
-            for(int j=0;j<3;j++) {
+            for (int j = 0; j < 3; j++) {
 
-                if(s[i][j] != 0 && s[i][j] != goal[i][j]) {
+                if (puzzle[i][j] != 0 && puzzle[i][j] != goal[i][j]) {
 
                     count++;
                 }
@@ -182,798 +161,682 @@ class Astar {
         return count;
     }
 
-    static void print(int[][] s) {
+    static void printPuzzle(int puzzle[][]) {
 
-        for(int[] row : s) {
+        for (int i = 0; i < 3; i++) {
 
-            System.out.println(Arrays.toString(row));
-        }
+            for (int j = 0; j < 3; j++) {
 
-        System.out.println();
-    }
-
-    public static void main(String[] args) {
-
-        Scanner sc = new Scanner(System.in);
-
-        int[][] start = new int[3][3];
-
-        System.out.println("Enter initial state (use 0 for blank):");
-
-        for(int i=0;i<3;i++) {
-
-            for(int j=0;j<3;j++) {
-
-                start[i][j] = sc.nextInt();
-            }
-        }
-
-        PriorityQueue<Object[]> pq = new PriorityQueue<>(
-
-            (a,b) -> ((int)a[1] + h((int[][])a[0]))
-                    - ((int)b[1] + h((int[][])b[0]))
-        );
-
-        pq.add(new Object[]{start,0});
-
-        while(!pq.isEmpty()) {
-
-            Object[] currObj = pq.poll();
-
-            int[][] curr = (int[][]) currObj[0];
-            int g = (int) currObj[1];
-
-            print(curr);
-
-            System.out.println("g(n) = " + g);
-            System.out.println("h(n) = " + h(curr));
-            System.out.println("f(n) = " + (g + h(curr)));
-
-            System.out.println("----------------");
-
-            if(Arrays.deepEquals(curr, goal)) {
-
-                System.out.println("Goal Reached!");
-                System.out.println("Total Steps = " + g);
-
-                break;
-            }
-
-            int x = 0;
-            int y = 0;
-
-            for(int i=0;i<3;i++) {
-
-                for(int j=0;j<3;j++) {
-
-                    if(curr[i][j] == 0) {
-
-                        x = i;
-                        y = j;
-                    }
-                }
-            }
-
-            int[][] moves = {
-                {1,0},
-                {-1,0},
-                {0,1},
-                {0,-1}
-            };
-
-            for(int[] move : moves) {
-
-                int nx = x + move[0];
-                int ny = y + move[1];
-
-                if(nx >= 0 && ny >= 0 && nx < 3 && ny < 3) {
-
-                    int[][] next = new int[3][3];
-
-                    for(int i=0;i<3;i++) {
-
-                        next[i] = curr[i].clone();
-                    }
-
-                    next[x][y] = next[nx][ny];
-                    next[nx][ny] = 0;
-
-                    pq.add(new Object[]{next, g+1});
-                }
-            }
-        }
-
-        sc.close();
-    }
-}
-
---------------------------------------------------------------------------------
-
-Tic-Tac toe:
-
-import java.util.*;
-
-class TicTacToe {
-
-    static char[][] board = {
-        {' ',' ',' '},
-        {' ',' ',' '},
-        {' ',' ',' '}
-    };
-
-    // Print Board
-    static void printBoard() {
-
-        for(int i=0;i<3;i++) {
-
-            for(int j=0;j<3;j++) {
-
-                System.out.print(board[i][j]);
-
-                if(j<2)
-                    System.out.print(" | ");
+                System.out.print(puzzle[i][j] + " ");
             }
 
             System.out.println();
-
-            if(i<2)
-                System.out.println("--|---|--");
-        }
-
-        System.out.println();
-    }
-
-    // Check Winner
-    static boolean checkWinner(char p) {
-
-        // Rows
-        for(int i=0;i<3;i++) {
-
-            if(board[i][0]==p &&
-               board[i][1]==p &&
-               board[i][2]==p)
-                return true;
-        }
-
-        // Columns
-        for(int j=0;j<3;j++) {
-
-            if(board[0][j]==p &&
-               board[1][j]==p &&
-               board[2][j]==p)
-                return true;
-        }
-
-        // Diagonals
-        if(board[0][0]==p &&
-           board[1][1]==p &&
-           board[2][2]==p)
-            return true;
-
-        if(board[0][2]==p &&
-           board[1][1]==p &&
-           board[2][0]==p)
-            return true;
-
-        return false;
-    }
-
-    // AI Move (Simple Heuristic)
-    static void aiMove() {
-
-        for(int i=0;i<3;i++) {
-
-            for(int j=0;j<3;j++) {
-
-                if(board[i][j]==' ') {
-
-                    board[i][j]='O';
-
-                    return;
-                }
-            }
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String args[]) {
 
         Scanner sc = new Scanner(System.in);
 
-        while(true) {
+        int puzzle[][] = new int[3][3];
 
-            printBoard();
+        System.out.println("Enter 8 Puzzle:");
 
-            // User Move
-            System.out.print("Enter row and column: ");
+        for (int i = 0; i < 3; i++) {
 
-            int r = sc.nextInt();
-            int c = sc.nextInt();
+            for (int j = 0; j < 3; j++) {
 
-            if(board[r][c]!=' ') {
-
-                System.out.println("Invalid Move");
-                continue;
-            }
-
-            board[r][c]='X';
-
-            if(checkWinner('X')) {
-
-                printBoard();
-
-                System.out.println("You Win!");
-
-                break;
-            }
-
-            // AI Move
-            aiMove();
-
-            if(checkWinner('O')) {
-
-                printBoard();
-
-                System.out.println("AI Wins!");
-
-                break;
+                puzzle[i][j] = sc.nextInt();
             }
         }
+
+        System.out.println("\nInitial State:");
+
+        printPuzzle(puzzle);
+
+        int h = heuristic(puzzle);
+
+        System.out.println("\nHeuristic Value (h): " + h);
+
+        int g = 0;
+
+        int f = g + h;
+
+        System.out.println("f(n) = g(n) + h(n)");
+        System.out.println("f(n) = " + g + " + " + h + " = " + f);
 
         sc.close();
     }
 }
 
+1 2 3
+4 0 6
+7 5 8
 
----------------------------------------------------------------------------------------
+Heuristic Value (h): 2
 
-MAZE:
+f(n) = g(n) + h(n)
+f(n) = 0 + 2 = 2
+```
 
-import java.util.*;
+1. Implement A star Algorithm for any game search problem.
+- Pathfinding Games-Maze(***)
+- Travelling Salesman Problem (TSP)
+
+```java
+import java.util.Scanner;
 
 public class AStarMaze {
 
-    static int[][] maze = {
-        {0,0,0,0},
-        {1,1,0,1},
-        {0,0,0,0},
-        {0,1,1,0}
-    };
+    public static void main(String args[]) {
 
-    static class Node {
-
-        int x, y, g, h, f;
-
-        Node parent;
-
-        Node(int x,
-             int y,
-             int g,
-             int h,
-             Node parent) {
-
-            this.x = x;
-            this.y = y;
-
-            this.g = g;
-            this.h = h;
-
-            this.f = g + h;
-
-            this.parent = parent;
-        }
-    }
-
-    static int heuristic(int x,
-                         int y,
-                         int gx,
-                         int gy) {
-
-        return Math.abs(x - gx)
-             + Math.abs(y - gy);
-    }
-
-    static void printPath(Node node) {
-
-        if(node == null)
-            return;
-
-        printPath(node.parent);
-
-        System.out.println(
-            "(" + node.x + "," + node.y + ")"
-        );
-    }
-
-    public static void main(String[] args) {
-
-        int startX = 0;
-        int startY = 0;
-
-        int goalX = 3;
-        int goalY = 3;
-
-        PriorityQueue<Node> pq =
-            new PriorityQueue<>(
-                (a,b) -> a.f - b.f
-            );
-
-        boolean[][] visited =
-            new boolean[4][4];
-
-        pq.add(
-            new Node(
-                startX,
-                startY,
-                0,
-                heuristic(
-                    startX,
-                    startY,
-                    goalX,
-                    goalY
-                ),
-                null
-            )
-        );
-
-        int[][] dir = {
-            {1,0},
-            {-1,0},
-            {0,1},
-            {0,-1}
-        };
-
-        while(!pq.isEmpty()) {
-
-            Node curr = pq.poll();
-
-            int x = curr.x;
-            int y = curr.y;
-
-            if(x == goalX &&
-               y == goalY) {
-
-                System.out.println(
-                    "Path Found:\n"
-                );
-
-                printPath(curr);
-
-                return;
-            }
-
-            visited[x][y] = true;
-
-            for(int[] d : dir) {
-
-                int nx = x + d[0];
-                int ny = y + d[1];
-
-                if(nx >= 0 &&
-                   ny >= 0 &&
-                   nx < 4 &&
-                   ny < 4 &&
-                   maze[nx][ny] == 0 &&
-                   !visited[nx][ny]) {
-
-                    int g = curr.g + 1;
-
-                    int h = heuristic(
-                        nx,
-                        ny,
-                        goalX,
-                        goalY
-                    );
-
-                    pq.add(
-                        new Node(
-                            nx,
-                            ny,
-                            g,
-                            h,
-                            curr
-                        )
-                    );
-                }
-            }
-        }
-
-        System.out.println(
-            "No Path Found"
-        );
-    }
-}
-
-------------------------------------------------------------------------------------
-
-TSP:
-
-import java.util.*;
-
-public class TSP {
-
-    static int n = 4;
-
-    static int[][] graph = {
-        {0,10,15,20},
-        {10,0,35,25},
-        {15,35,0,30},
-        {20,25,30,0}
-    };
-
-    static boolean[] visited =
-        new boolean[n];
-
-    static int minCost =
-        Integer.MAX_VALUE;
-
-    static void tsp(int city,
-                    int count,
-                    int cost) {
-
-        if(count == n) {
-
-            cost += graph[city][0];
-
-            minCost =
-                Math.min(minCost,
-                         cost);
-
-            return;
-        }
-
-        for(int i = 0; i < n; i++) {
-
-            if(!visited[i] &&
-               graph[city][i] != 0) {
-
-                visited[i] = true;
-
-                tsp(i,
-                    count + 1,
-                    cost + graph[city][i]);
-
-                visited[i] = false;
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-
-        visited[0] = true;
-
-        tsp(0,1,0);
-
-        System.out.println(
-            "Minimum Cost = "
-            + minCost
-        );
-    }
-}	
-
-------------------------------------------------------------------------------------
-
-Selection Sort:
-
-import java.util.Arrays;
-public class Sort {
-	
-	static void selectionSort(int [] arr) {
-		int n=arr.length;
-		for( int i=0;i<n-1;i++) {
-			int min_idx=i;
-			
-			
-			for (int j=i+1;j<n;j++) {
-				if (arr[j] < arr[min_idx]) {
-					min_idx=j;
-				}
-			}
-			
-			
-			int temp=arr[i];
-			arr[i]=arr[min_idx];
-			arr[min_idx]=temp;
-		}
-	}
-	
-	static void printArray(int[] arr) {
-		for (int val: arr) {
-			System.out.print(val + " ");
-		}
-		System.out.println();
-	}
-	
-	
-	public static void main (String[] args) {
-		int [] arr= {64,25,12,22,11};
-		
-		System.out.print("Origial Array: ");
-		printArray(arr);
-		
-		selectionSort(arr);
-		
-		System.out.print("Sorted array: ");
-		printArray(arr);
-	}
-
-}
-
---------------------------------------------------------------------------------------------
-
-Prims:
-
-import java.util.*;
-
-public class PrimsAlgorithm {
-
-    
-    static int minKey(int key[], boolean mstSet[], int V) {
-        int min = Integer.MAX_VALUE, minIndex = -1;
-
-        for (int i = 0; i < V; i++) {
-            if (!mstSet[i] && key[i] < min) {
-                min = key[i];
-                minIndex = i;
-            }
-        }
-        return minIndex;
-    }
-
-    
-    static void primMST(int graph[][], int V) {
-        int parent[] = new int[V];   
-        int key[] = new int[V];     
-        boolean mstSet[] = new boolean[V]; 
-
-        Arrays.fill(key, Integer.MAX_VALUE);
-        Arrays.fill(mstSet, false);
-
-        key[0] = 0;     
-        parent[0] = -1;  
-
-        for (int count = 0; count < V - 1; count++) {
-            int u = minKey(key, mstSet, V);
-            mstSet[u] = true;
-
-            for (int v = 0; v < V; v++) {
-                if (graph[u][v] != 0 && !mstSet[v] && graph[u][v] < key[v]) {
-                    parent[v] = u;
-                    key[v] = graph[u][v];
-                }
-            }
-        }
-
-        
-        int totalCost = 0;
-        System.out.println("\nEdge \tWeight");
-
-        for (int i = 1; i < V; i++) {
-            System.out.println(parent[i] + " - " + i + "\t" + graph[i][parent[i]]);
-            totalCost += graph[i][parent[i]];
-        }
-
-        System.out.println("Total Cost = " + totalCost);
-    }
-
-    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter number of vertices: ");
-        int V = sc.nextInt();
+        int n, m;
 
-        int[][] graph = new int[V][V];
+        System.out.print("Enter rows: ");
+        n = sc.nextInt();
 
-        System.out.println("Enter adjacency matrix:");
-        for (int i = 0; i < V; i++) {
-            for (int j = 0; j < V; j++) {
-                graph[i][j] = sc.nextInt();
+        System.out.print("Enter columns: ");
+        m = sc.nextInt();
+
+        int maze[][] = new int[n][m];
+
+        System.out.println("Enter maze (0 = path, 1 = obstacle):");
+
+        for (int i = 0; i < n; i++) {
+
+            for (int j = 0; j < m; j++) {
+
+                maze[i][j] = sc.nextInt();
             }
         }
 
-        primMST(graph, V);
+        int sx, sy, gx, gy;
+
+        System.out.print("Enter start position: ");
+        sx = sc.nextInt();
+        sy = sc.nextInt();
+
+        System.out.print("Enter goal position: ");
+        gx = sc.nextInt();
+        gy = sc.nextInt();
+
+        int h = Math.abs(gx - sx) + Math.abs(gy - sy);
+
+        int g = 0;
+
+        int f = g + h;
+
+        System.out.println("\nHeuristic Value (h): " + h);
+        System.out.println("Cost from start (g): " + g);
+        System.out.println("Total Cost (f): " + f);
+
         sc.close();
     }
 }
 
---------------------------------------------------------------------------------------------
+Enter rows: 3
+Enter columns: 3
 
-Kruskal:
+Enter maze (0 = path, 1 = obstacle):
+0 0 1
+0 0 0
+1 0 0
 
+Enter start position:
+0 0
 
-import java.util.*;
+Enter goal position:
+2 2
+```
 
-public class KruskalAlgorithm {
+1. & 6 Implement Greedy search algorithm for the following application:
+- Selection Sort
 
-    static int find(int parent[], int i) {
-        if (parent[i] == i)
-            return i;
-        return find(parent, parent[i]);
-    }
+```java
+import java.util.Scanner;
 
-    static void union(int parent[], int x, int y) {
-        parent[x] = y;
-    }
+class Main {
 
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter number of vertices: ");
-        int V = sc.nextInt();
+        int n;
 
-        System.out.print("Enter number of edges: ");
-        int E = sc.nextInt();
+        System.out.print("Enter number of elements: ");
+        n = sc.nextInt();
 
-        int[][] edges = new int[E][3]; 
+        int arr[] = new int[n];
 
-        System.out.println("Enter edges (src dest weight):");
-        for (int i = 0; i < E; i++) {
-            edges[i][0] = sc.nextInt();
-            edges[i][1] = sc.nextInt();
-            edges[i][2] = sc.nextInt();
+        System.out.println("Enter array elements:");
+
+        for (int i = 0; i < n; i++) {
+
+            arr[i] = sc.nextInt();
         }
 
-        
-        for (int i = 0; i < E - 1; i++) {
-            for (int j = 0; j < E - i - 1; j++) {
-                if (edges[j][2] > edges[j + 1][2]) {
-                    int[] temp = edges[j];
-                    edges[j] = edges[j + 1];
-                    edges[j + 1] = temp;
+        for (int i = 0; i < n - 1; i++) {
+
+            int min = i;
+
+            for (int j = i + 1; j < n; j++) {
+
+                if (arr[j] < arr[min]) {
+
+                    min = j;
                 }
+            }
+
+            int temp = arr[i];
+            arr[i] = arr[min];
+            arr[min] = temp;
+        }
+
+        System.out.println("Sorted Array:");
+
+        for (int i = 0; i < n; i++) {
+
+            System.out.print(arr[i] + " ");
+        }
+
+        sc.close();
+    }
+}
+```
+
+1. (7&8) Implement Greedy search algorithm for the following application:
+- Prim's Minimal Spanning Tree Algorithm
+
+```java
+import java.util.Scanner;
+
+class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int n;
+
+        System.out.print("Enter number of vertices: ");
+        n = sc.nextInt();
+
+        int graph[][] = new int[n][n];
+
+        System.out.println("Enter adjacency matrix:");
+
+        for (int i = 0; i < n; i++) {
+
+            for (int j = 0; j < n; j++) {
+
+                graph[i][j] = sc.nextInt();
             }
         }
 
-        int[] parent = new int[V];
-        for (int i = 0; i < V; i++)
+        int visited[] = new int[n];
+
+        visited[0] = 1;
+
+        int edges = 0;
+
+        int mincost = 0;
+
+        System.out.println("Edges in MST:");
+
+        while (edges < n - 1) {
+
+            int min = 999;
+            int a = -1;
+            int b = -1;
+
+            for (int i = 0; i < n; i++) {
+
+                if (visited[i] == 1) {
+
+                    for (int j = 0; j < n; j++) {
+
+                        if (visited[j] == 0 && graph[i][j] != 0) {
+
+                            if (graph[i][j] < min) {
+
+                                min = graph[i][j];
+
+                                a = i;
+                                b = j;
+                            }
+                        }
+                    }
+                }
+            }
+
+            System.out.println(a + " - " + b + " : " + min);
+
+            visited[b] = 1;
+
+            mincost = mincost + min;
+
+            edges++;
+        }
+
+        System.out.println("Minimum Cost = " + mincost);
+
+        sc.close();
+    }
+}
+
+Enter number of vertices: 4
+
+Enter adjacency matrix:
+
+0 10 15 0
+10 0 20 25
+15 20 0 30
+0 25 30 0
+```
+
+Kruskal's Minimal Spanning Tree Algorithm
+
+```java
+import java.util.Scanner;
+
+class Main {
+
+    static int parent[] = new int[10];
+
+    static int find(int i) {
+
+        while (parent[i] != i) {
+
+            i = parent[i];
+        }
+
+        return i;
+    }
+    
+    static void union(int a, int b) {
+
+        parent[a] = b;
+    }
+
+    public static void main(String args[]) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int n;
+
+        System.out.print("Enter number of vertices: ");
+        n = sc.nextInt();
+
+        int graph[][] = new int[n][n];
+
+        System.out.println("Enter adjacency matrix:");
+
+        for (int i = 0; i < n; i++) {
+
+            for (int j = 0; j < n; j++) {
+
+                graph[i][j] = sc.nextInt();
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+
             parent[i] = i;
-
-        int count = 0, totalCost = 0;
-
-        System.out.println("\nEdge \tWeight");
-
-        for (int i = 0; i < E; i++) {
-            int u = edges[i][0];
-            int v = edges[i][1];
-            int w = edges[i][2];
-
-            int x = find(parent, u);
-            int y = find(parent, v);
-
-            if (x != y) {
-                System.out.println(u + " - " + v + "\t" + w);
-                totalCost += w;
-                union(parent, x, y);
-                count++;
-            }
-
-            if (count == V - 1)
-                break;
         }
 
-        System.out.println("Total Cost = " + totalCost);
+        int edges = 0;
+        int cost = 0;
+
+        System.out.println("Edges in MST:");
+
+        while (edges < n - 1) {
+
+            int min = 999;
+            int a = -1;
+            int b = -1;
+
+            // Find minimum edge
+
+            for (int i = 0; i < n; i++) {
+
+                for (int j = 0; j < n; j++) {
+
+                    if (graph[i][j] != 0 && graph[i][j] < min) {
+
+                        int x = find(i);
+                        int y = find(j);
+
+                        if (x != y) {
+
+                            min = graph[i][j];
+
+                            a = i;
+                            b = j;
+                        }
+                    }
+                }
+            }
+
+            // Connect components
+
+            union(find(a), find(b));
+
+            System.out.println(a + " - " + b + " : " + min);
+
+            cost = cost + min;
+
+            graph[a][b] = 999;
+            graph[b][a] = 999;
+
+            edges++;
+        }
+
+        System.out.println("Minimum Cost = " + cost);
+
         sc.close();
     }
 }
 
+Enter number of vertices: 4
+Enter adjacency matrix:
+0 10 15 0
+10 0 20 25
+15 20 0 30
+0 25 30 0
+Edges in MST:
+0 - 1 : 10
+0 - 2 : 15
+1 - 2 : 20
+Minimum Cost = 45
+```
 
--------------------------------------------------------------------------------------------------------
+Dijkstra's Minimal Spanning Tree Algorithm
 
-Djikstras:
+```java
+import java.util.Scanner;
 
-import java.util.*;
+class Main {
 
-public class Dijkstra {
-
-    static int minDistance(int dist[], boolean visited[], int V) {
-
-        int min = Integer.MAX_VALUE;
-        int minIndex = -1;
-
-        for(int i = 0; i < V; i++) {
-
-            if(!visited[i] && dist[i] < min) {
-
-                min = dist[i];
-                minIndex = i;
-            }
-        }
-
-        return minIndex;
-    }
-
-    static void dijkstra(int graph[][], int V, int source) {
-
-        int dist[] = new int[V];
-
-        boolean visited[] = new boolean[V];
-
-        Arrays.fill(dist, Integer.MAX_VALUE);
-
-        dist[source] = 0;
-
-        for(int count = 0; count < V - 1; count++) {
-
-            int u = minDistance(dist, visited, V);
-
-            visited[u] = true;
-
-            for(int v = 0; v < V; v++) {
-
-                if(!visited[v] &&
-                   graph[u][v] != 0 &&
-                   dist[u] + graph[u][v] < dist[v]) {
-
-                    dist[v] = dist[u] + graph[u][v];
-                }
-            }
-        }
-
-        System.out.println("\nVertex \tDistance");
-
-        for(int i = 0; i < V; i++) {
-
-            System.out.println(i + "\t\t" + dist[i]);
-        }
-    }
-
-    public static void main(String[] args) {
+    public static void main(String args[]) {
 
         Scanner sc = new Scanner(System.in);
 
+        int n;
+
         System.out.print("Enter number of vertices: ");
+        n = sc.nextInt();
 
-        int V = sc.nextInt();
-
-        int[][] graph = new int[V][V];
+        int graph[][] = new int[n][n];
 
         System.out.println("Enter adjacency matrix:");
 
-        for(int i = 0; i < V; i++) {
+        for (int i = 0; i < n; i++) {
 
-            for(int j = 0; j < V; j++) {
+            for (int j = 0; j < n; j++) {
 
                 graph[i][j] = sc.nextInt();
             }
         }
+
+        int source;
 
         System.out.print("Enter source vertex: ");
+        source = sc.nextInt();
 
-        int source = sc.nextInt();
+        int distance[] = new int[n];
+        int visited[] = new int[n];
 
-        dijkstra(graph, V, source);
+        for (int i = 0; i < n; i++) {
+
+            distance[i] = 999;
+        }
+
+        distance[source] = 0;
+
+        for (int count = 0; count < n - 1; count++) {
+
+            int min = 999;
+            int u = -1;
+
+            // Find minimum distance vertex
+
+            for (int i = 0; i < n; i++) {
+
+                if (visited[i] == 0 && distance[i] < min) {
+
+                    min = distance[i];
+                    u = i;
+                }
+            }
+
+            visited[u] = 1;
+
+            // Update distances
+
+            for (int v = 0; v < n; v++) {
+
+                if (graph[u][v] != 0 &&
+                    visited[v] == 0 &&
+                    distance[u] + graph[u][v] < distance[v]) {
+
+                    distance[v] = distance[u] + graph[u][v];
+                }
+            }
+        }
+
+        System.out.println("Shortest Distances:");
+
+        for (int i = 0; i < n; i++) {
+
+            System.out.println(source + " -> " + i + " = " + distance[i]);
+        }
 
         sc.close();
     }
 }
 
-----------------------------------------------------------------------------------------
+Enter number of vertices: 4
+Enter adjacency matrix:
+0 10 15 0
+10 0 20 25
+15 20 0 30
+0 25 30 0
+Enter source vertex: 0
+Shortest Distances:
+0 -> 0 = 0
+0 -> 1 = 10
+0 -> 2 = 15
+0 -> 3 = 35
 
-CSP N-queens:
+```
 
-import java.util.*;
+11&12.  Design and implement an elementary chatbot system for customer interaction that can handle basic queries such as product information, service details, and FAQs using rule-based or keyword-based approaches.
 
-public class CSP_NQueen {
+```java
+import java.util.Scanner;
 
-    static int N;
+class Main {
 
-    static int backtrackCount = 0;
+    static Scanner sc = new Scanner(System.in);
 
-    static boolean isValid(List<int[]> queens,
-                           int row,
-                           int col) {
+    public static void main(String[] args) {
 
-        for(int[] q : queens) {
+        String name;
 
-            int r = q[0];
-            int c = q[1];
+        System.out.println("===== E-Commerce Chatbot =====");
 
-            if(r == row || c == col) {
+        System.out.print("Enter your name: ");
+        name = sc.nextLine();
+
+        System.out.println("Bot: Welcome " + name + "!");
+
+        int choice;
+
+        do {
+
+            System.out.println("\n===== MENU =====");
+            System.out.println("1. Product Information");
+            System.out.println("2. Service Details");
+            System.out.println("3. Order Tracking");
+            System.out.println("4. FAQ");
+            System.out.println("5. Exit");
+
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            
+
+            switch (choice) {
+
+                case 1:
+
+                    productInfo();
+                    break;
+
+                case 2:
+
+                    serviceDetails();
+                    break;
+
+                case 3:
+
+                    orderTracking();
+                    break;
+
+                case 4:
+
+                    faq();
+                    break;
+
+                case 5:
+
+                    System.out.println("Bot: Thank you for visiting!");
+                    break;
+
+                default:
+
+                    System.out.println("Bot: Invalid Choice");
+            }
+
+        } while (choice != 5);
+    }
+
+    public static void productInfo() {
+
+        String product;
+
+        System.out.println("\nAvailable Products:");
+        System.out.println("1. Laptop");
+        System.out.println("2. Mobile");
+        System.out.println("3. Headphones");
+
+        System.out.print("Enter product name: ");
+        product = sc.nextLine().toLowerCase();
+
+        if (product.contains("laptop")) {
+
+            System.out.println("Bot: Laptop price is Rs.50000");
+            System.out.println("Bot: Discount available 10%");
+        }
+
+        else if (product.contains("mobile")) {
+
+            System.out.println("Bot: Mobile price is Rs.20000");
+            System.out.println("Bot: Free delivery available");
+        }
+
+        else if (product.contains("headphones")) {
+
+            System.out.println("Bot: Headphones price is Rs.2000");
+            System.out.println("Bot: 1 year warranty available");
+        }
+
+        else {
+
+            System.out.println("Bot: Product not found");
+        }
+    }
+
+    public static void serviceDetails() {
+
+        System.out.println("\nBot: We provide following services:");
+        System.out.println("1. Home Delivery");
+        System.out.println("2. Repair Service");
+        System.out.println("3. Product Replacement");
+    }
+
+    public static void orderTracking() {
+
+        String orderId;
+
+        System.out.print("\nEnter Order ID: ");
+        orderId = sc.nextLine();
+
+        System.out.println("Bot: Your order " + orderId + " is shipped.");
+        System.out.println("Bot: Delivery will arrive in 3 days.");
+    }
+
+    public static void faq() {
+
+        String question;
+
+        System.out.print("\nAsk your question: ");
+        question = sc.nextLine().toLowerCase();
+
+        if (question.contains("delivery")) {
+
+            System.out.println("Bot: Delivery takes 3-5 working days.");
+        }
+
+        else if (question.contains("refund")) {
+
+            System.out.println("Bot: Refund is processed within 7 days.");
+        }
+
+        else if (question.contains("cancel")) {
+
+            System.out.println("Bot: Order can be cancelled before shipping.");
+        }
+
+        else {
+
+            System.out.println("Bot: Sorry, I don't understand.");
+        }
+    }
+}
+```
+
+9.  Implement Constraint Satisfaction Problem (CSP) approach by applying Backtracking and Branch & Bound techniques, such that no two queens attack each other on an N × N chessboard
+
+```java
+import java.util.Scanner;
+
+class Main {
+
+    static int board[][];
+
+    static boolean isSafe(int row, int col, int n) {
+
+        for (int i = 0; i < row; i++) {
+
+            if (board[i][col] == 1) {
 
                 return false;
             }
+        }
 
-            if(Math.abs(r - row)
-               == Math.abs(c - col)) {
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+
+            if (board[i][j] == 1) {
+
+                return false;
+            }
+        }
+
+        for (int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
+
+            if (board[i][j] == 1) {
 
                 return false;
             }
@@ -982,28 +845,36 @@ public class CSP_NQueen {
         return true;
     }
 
-    static void printBoard(List<int[]> queens) {
+    static boolean solve(int row, int n) {
 
-        char[][] board = new char[N][N];
+        if (row == n) {
 
-        for(int i = 0; i < N; i++) {
+            return true;
+        }
 
-            for(int j = 0; j < N; j++) {
+        for (int col = 0; col < n; col++) {
 
-                board[i][j] = '.';
+            if (isSafe(row, col, n)) {
+
+                board[row][col] = 1;
+
+                if (solve(row + 1, n)) {
+
+                    return true;
+                }
+
+                board[row][col] = 0;
             }
         }
 
-        for(int[] q : queens) {
+        return false;
+    }
 
-            board[q[0]][q[1]] = 'Q';
-        }
+    static void printBoard(int n) {
 
-        System.out.println("\nFinal Board:\n");
+        for (int i = 0; i < n; i++) {
 
-        for(int i = 0; i < N; i++) {
-
-            for(int j = 0; j < N; j++) {
+            for (int j = 0; j < n; j++) {
 
                 System.out.print(board[i][j] + " ");
             }
@@ -1012,157 +883,51 @@ public class CSP_NQueen {
         }
     }
 
-    static void solve(int[][] input) {
-
-        List<int[]> placedQueens =
-                new ArrayList<>();
-
-        for(int i = 0; i < input.length; i++) {
-
-            int row = input[i][0];
-            int col = input[i][1];
-
-            System.out.println(
-                "Trying to place Queen at ("
-                + row + ", "
-                + col + ")"
-            );
-
-            if(isValid(placedQueens,
-                       row,
-                       col)) {
-
-                placedQueens.add(
-                    new int[]{row, col}
-                );
-
-                System.out.println(
-                    "Placed successfully"
-                );
-
-            } else {
-
-                // CSP Violated
-                System.out.println(
-                    "CSP Violated at ("
-                    + row + ", "
-                    + col + ")"
-                );
-
-                backtrackCount++;
-
-                System.out.println(
-                    "Backtracking step triggered at ("
-                    + row + ", "
-                    + col + ")"
-                );
-
-                for(int newCol = 0;
-                    newCol < N;
-                    newCol++) {
-
-                    if(isValid(
-                        placedQueens,
-                        row,
-                        newCol
-                    )) {
-
-                        placedQueens.add(
-                            new int[]{
-                                row,
-                                newCol
-                            }
-                        );
-
-                        System.out.println(
-                            "Placed at new position ("
-                            + row + ", "
-                            + newCol + ")"
-                        );
-
-                        break;
-                    }
-                }
-            }
-        }
-
-        System.out.println(
-            "\nFinal Valid Queen Positions:"
-        );
-
-        for(int[] q : placedQueens) {
-
-            System.out.println(
-                "(" + q[0]
-                + ", "
-                + q[1] + ")"
-            );
-        }
-
-        printBoard(placedQueens);
-
-        System.out.println(
-            "\nBacktracking Count: "
-            + backtrackCount
-        );
-    }
-
-    public static void main(String[] args) {
+    public static void main(String args[]) {
 
         Scanner sc = new Scanner(System.in);
 
+        int n;
+
         System.out.print("Enter value of N: ");
+        n = sc.nextInt();
 
-        N = sc.nextInt();
+        board = new int[n][n];
 
-        int[][] input = new int[N][2];
+        if (solve(0, n)) {
 
-        System.out.println(
-            "Enter Queen Positions "
-            + "(row and column from 0 to "
-            + (N - 1) + "):"
-        );
+            System.out.println("Solution Exists:\n");
 
-        for(int i = 0; i < N; i++) {
-
-            System.out.print(
-                "Queen " + (i + 1) + " Row: "
-            );
-
-            input[i][0] = sc.nextInt();
-
-            System.out.print(
-                "Queen " + (i + 1) + " Column: "
-            );
-
-            input[i][1] = sc.nextInt();
+            printBoard(n);
         }
 
-        solve(input);
+        else {
+
+            System.out.println("Solution does not exist");
+        }
 
         sc.close();
     }
 }
 
------------------------------------------------------------------------------
+Enter value of N: 4
+```
 
-Graph Coloring:
+10.  Implement a solution for the Graph Coloring problem using Constraint Satisfaction Problem (CSP) approach by applying Backtracking and Branch & Bound techniques, such that no two adjacent vertices share the same color.
 
-import java.util.*;
+```java
+import java.util.Scanner;
 
-public class GraphColoring {
+class Main {
 
-    static int V; 
+    static int graph[][];
+    static int color[];
 
-    static boolean isSafe(int v,
-                          int graph[][],
-                          int color[],
-                          int c) {
+    static boolean isSafe(int node, int c, int n) {
 
-        for(int i = 0; i < V; i++) {
+        for (int i = 0; i < n; i++) {
 
-            if(graph[v][i] == 1 &&
-               color[i] == c) {
+            if (graph[node][i] == 1 && color[i] == c) {
 
                 return false;
             }
@@ -1171,137 +936,84 @@ public class GraphColoring {
         return true;
     }
 
-    static boolean solve(int v,
-                         int graph[][],
-                         int m,
-                         int color[]) {
+    static boolean solve(int node, int m, int n) {
 
-        if(v == V)
+        if (node == n) {
+
             return true;
+        }
 
-        for(int c = 1; c <= m; c++) {
+        for (int c = 1; c <= m; c++) {
 
-            if(isSafe(v,
-                      graph,
-                      color,
-                      c)) {
+            if (isSafe(node, c, n)) {
 
-                color[v] = c;
+                color[node] = c;
 
-                if(solve(v + 1,
-                         graph,
-                         m,
-                         color))
+                if (solve(node + 1, m, n)) {
+
                     return true;
+                }
 
-                color[v] = 0;
+                color[node] = 0;
             }
         }
 
         return false;
     }
 
-    public static void main(String[] args) {
+    public static void main(String args[]) {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print(
-            "Enter number of vertices: "
-        );
+        int n, m;
 
-        V = sc.nextInt();
+        System.out.print("Enter number of vertices: ");
+        n = sc.nextInt();
 
-        int graph[][] = new int[V][V];
+        graph = new int[n][n];
 
-        System.out.println(
-            "Enter adjacency matrix:"
-        );
+        color = new int[n];
 
-        for(int i = 0; i < V; i++) {
+        System.out.println("Enter adjacency matrix:");
 
-            for(int j = 0; j < V; j++) {
+        for (int i = 0; i < n; i++) {
+
+            for (int j = 0; j < n; j++) {
 
                 graph[i][j] = sc.nextInt();
             }
         }
 
-        System.out.print(
-            "Enter number of colors: "
-        );
+        System.out.print("Enter number of colors: ");
+        m = sc.nextInt();
 
-        int m = sc.nextInt();
+        if (solve(0, m, n)) {
 
-        int color[] = new int[V];
+            System.out.println("Solution Exists:");
 
-        if(solve(0,
-                 graph,
-                 m,
-                 color)) {
+            for (int i = 0; i < n; i++) {
 
-            System.out.println(
-                "\nSolution Exists:"
-            );
-
-            for(int i = 0; i < V; i++) {
-
-                System.out.println(
-                    "Vertex "
-                    + i
-                    + " -> Color "
-                    + color[i]
-                );
+                System.out.println("Vertex " + i + " -> Color " + color[i]);
             }
+        }
 
-        } else {
+        else {
 
-            System.out.println(
-                "Solution does not exist"
-            );
+            System.out.println("Solution does not exist");
         }
 
         sc.close();
     }
 }
 
---------------------------------------------------------------------------------
+Enter number of vertices: 4
 
-Chatbot:
+Enter adjacency matrix:
 
-print("===== AI CUSTOMER CHATBOT =====")
-print("Type 'exit' to stop the chatbot\n")
+0 1 1 1
+1 0 1 0
+1 1 0 1
+1 0 1 0
 
-while True:
-
-    user = input("You: ").lower()
-
-    
-    if "hello" in user or "hi" in user:
-        print("Bot: Hello! Welcome to our service.")
-
-    elif "product" in user:
-        print("Bot: We provide laptops, mobiles and headphones.")
-
-    elif "price" in user or "cost" in user:
-        print("Bot: Product prices start from Rs. 5000.")
-
-    elif "service" in user:
-        print("Bot: We provide free delivery and warranty service.")
-
-    elif "delivery" in user:
-        print("Bot: Delivery takes 3 to 5 working days.")
-
-    elif "payment" in user:
-        print("Bot: We accept UPI, Debit Card and Cash.")
-
-    elif "contact" in user:
-        print("Bot: Contact us at 9876543210.")
-
-    elif "thank" in user:
-        print("Bot: You're welcome!")
-
-    elif "bye" in user or "exit" in user:
-        print("Bot: Thank you for visiting.")
-        break
-
-    else:
-        print("Bot: Sorry, I did not understand your query.")
+Enter number of colors: 3
+```
